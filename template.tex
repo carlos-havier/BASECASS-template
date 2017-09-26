@@ -1,0 +1,146 @@
+\documentclass[a4paper,12pt] {book} 
+     
+\usepackage{booktabs,longtable,rotating} % long tables are split to other lines %for rotating tables
+\usepackage{expl3}
+\usepackage{xparse}
+\usepackage{xstring}
+\usepackage{relsize} % sizes relative to current
+\usepackage{array,warpcol} % Alignment on decimal point entries in tables
+\usepackage{multirow} % muli rows (merge) in tables
+\usepackage{fixme} %
+\usepackage{etex}
+\reserveinserts{28}
+\usepackage{etoolbox}
+
+%\newcommand{\widthoftable}{\dimexpr\textwidth-2\tabcolsep\relax}
+%\def \BASECASSFirstColumnWidth {2cm}
+%\def \BASECASSSecondColumnWidth {2cm}
+%\def \BASECASSThirdColumnWidth {8cm}
+%\def \BASECASSFirstAndSecondColumnWidth {4cm}
+%\def \BASECASSSecondAndThirdColumnWidth {11cm}
+
+\begin{document} 
+
+\include{basecassTableDefinitions}
+
+BASECASS is a framework to check a basic level of security on new CAPTCHA proposals. It is explained in the PhD thesis "WHERE DO CAPTCHAS FAIL: A STUDY IN COMMON PITFALLS IN CAPTCHA DESIGN AND HOW TO AVOID THEM", by Carlos J. Hern\'{a}ndez-Castro.
+
+Here we present an empty BASECASS table for reference. This table can be used as a template by any cybersecurity practitioner when applying BASECASS to a new CAPTCHA.
+
+\setlength\tabcolsep{5.5pt} % default value: 6pt
+
+\begin{longtable}{@{\extracolsep{\fill}}l@{}} %{@{}l@{}}
+
+    \caption{BASECASS template.} \\
+  
+    \basecassTitle
+    {} % Main title
+    {} % Name of the CAPTCHA
+    {} % Description of the challenge
+     \\
+    
+    \ChallengeDomain
+    {} % Base-problem type
+    {} % Base-problem size
+    {} % CAPTCHA (real) problem domain
+    {} % CAPTCHA problem size
+    {} % CAPTCHA problem distribution of challenges (if possible to study)
+     \\
+
+	\basecassAnswerDomain
+	{} % Maximum theoretical range
+	{} % Actual range in CAPTCHA
+	{} % Ratio maximum/real
+	{} % Explanation
+	{} % Distribution of correct answers (if possible to study and significant result)
+	 \\
+
+	\basecassChallengeAnswerDomainConclusions
+	{} % Attack is possible base in domains: yes/no
+	{} % why yes/no
+	{} % Attack description
+	{} % Attack success rate
+	 \\
+
+	\basecassMetrics
+	{} % Denoising techniques prior to metrics
+	{} % TRansforms prior to metrics
+	{} % Generic metric #1
+	{\vspace*{42px},} % Other generic metrics, comma separated
+	{} % Order metric #1
+	{\vspace*{42px},} % Other order metrics, comma separated
+	{} % Specific metric #1
+	{\vspace*{42px},} % Other specific metrics, comma separated
+	 \\
+
+
+	\basecassTestOfMetrics
+		{} % Is possible an attack using one or a combination of the metrics?
+		{} % Attack description
+		{} % Attack success rate
+		{}
+		{}
+		 \\
+	
+\basecassDataPreparation
+	{\vspace*{22px}} % Training set size
+	{\vspace*{22px}} % Training set balance among classes
+	{\vspace*{22px}} % Training set comments
+	\\
+
+\basecassStatisticalAnalysis
+	{} % Correlations found
+	{} % Regressions or orther lineal relationships found
+	 \\
+
+\basecassMLAnalysis
+	{} % Selection criteria for best ML algorithm
+	{} % Best algorithm(s)
+	{} % Accuracy/ies
+	{} % kappa-statistic/s
+	 \\
+
+\basecassSMLAttackAndResults
+	{} % Is a ML attack possible?: yes/no
+	{} % Attack description
+	{} % Attack success rate
+	{} % Observations
+	 \\
+
+\basecassMLParameterAnalysis
+	{} % Combination of parameter, value, and interesting ML results
+	{}
+	{}
+	 \\ 
+
+\basecassAttackAndResults
+	{} % Is any attack possible?: yes/no
+	{} % Attack description
+	{} % Attack success rate
+	{} % Observations
+	 \\ 
+
+\basecassConclusion
+	{} % Weaknesses found
+	{} % Was the CAPTCHA broken? If so, indicate success rate
+	{} % Possible improvements or work-arounds on the CAPTCHA
+	 \\ 
+	
+
+    \label{tab:BASECASSTemplate}
+
+\end{longtable}
+
+
+\end{document} 
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,507 @@
+
+
+
+
+\newlength{\columnWidthForTwoColumnsOne}
+\newlength{\columnWidthForTwoColumnsTwo}
+\newlength{\columnWidthForTwoColumnsThree}
+%\newlength{\columnWidthForTwoColumnsOneTwo}
+\newlength{\columnWidthForTwoColumnsTwoThree}
+\newlength{\columnWidthForTwoColumnsOneTwoThree}
+
+\setlength{\columnWidthForTwoColumnsOne}{2.5cm-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForTwoColumnsTwo}{2.5cm-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForTwoColumnsThree}{8.5cm}
+%\setlength{\columnWidthForTwoColumnsOneTwo}{4cm-\tabcolsep-\tabcolsep-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForTwoColumnsTwoThree}{11cm-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForTwoColumnsOneTwoThree}{13.5cm-\tabcolsep-\tabcolsep-\tabcolsep-\tabcolsep}
+
+\newlength{\columnWidthForThreeColumnsOne}
+\newlength{\columnWidthForThreeColumnsTwo}
+\newlength{\columnWidthForThreeColumnsThree}
+\newlength{\columnWidthForThreeColumnsOneTwo}
+\newlength{\columnWidthForThreeColumnsTwoThree}
+\newlength{\columnWidthForThreeColumnsOneTwoThree}
+
+\setlength{\columnWidthForThreeColumnsOne}{2.5cm-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForThreeColumnsTwo}{2.5cm-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForThreeColumnsThree}{8.5cm-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForThreeColumnsOneTwo}{5cm-\tabcolsep-\tabcolsep-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForThreeColumnsTwoThree}{11cm-\tabcolsep-\tabcolsep-\tabcolsep-\tabcolsep}
+\setlength{\columnWidthForThreeColumnsOneTwoThree}{13.5cm-\tabcolsep-\tabcolsep-\tabcolsep-\tabcolsep-\tabcolsep-\tabcolsep}
+
+% to set row height, from https://tex.stackexchange.com/questions/84524/how-to-make-a-row-in-a-table-shorter
+
+\makeatletter
+\newsavebox\saved@arstrutbox
+\newcommand*{\setarstrut}[1]{%
+  \noalign{%
+    \begingroup
+      \global\setbox\saved@arstrutbox\copy\@arstrutbox
+      #1%
+      \global\setbox\@arstrutbox\hbox{%
+        \vrule \@height\arraystretch\ht\strutbox
+               \@depth\arraystretch \dp\strutbox
+               \@width\z@
+      }%
+    \endgroup
+  }%
+}
+\newcommand*{\restorearstrut}{%
+  \noalign{%
+    \global\setbox\@arstrutbox\copy\saved@arstrutbox
+  }%
+}
+\makeatother
+
+% anyadimos esto a la primera columna >{\hspace{0pt}}   para q lo anyada a todas las primeras columnas
+% esto hace q TeX no considere a la primera palabra cOmo la primera palabra
+% es importante pq TeX no hace hypenathion de la primera palabra
+% info aqi'i: https://tex.stackexchange.com/questions/198325/wrap-word-in-table-cell
+
+\newcommand{\basecassTitle}[3]{%
+%\begin{tabular}{ @{\extracolsep{\fill}} | p{\columnWidthForTwoColumnsOne}  |  p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+%\begin{tabular}{ @{\extracolsep{\fill}} | p{\columnWidthForTwoColumnsOne}  |  p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+%    \hline
+%%      &  &   \\[-2ex] % hace falta anyadir una linea pq respeta el espacio de cols con ella
+%      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ }\\
+%      \multicolumn{3}{| c |}{ #1 }\\
+%      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{  }\\
+%    \hline
+%%      Name: & \multicolumn{2}{ c |}{ {\relsize{-1} #2 } } \\
+%%      Description: & \multicolumn{2}{ c |}{ {\relsize{-1} #3 } } \\
+%      Name: & \multicolumn{2}{ p{\columnWidthForThreeColumnsTwoThree} |}{ #2 } \\
+%      Description: & \multicolumn{2}{ p{\columnWidthForThreeColumnsTwoThree} |}{ #3 } \\
+%    \hline
+%\end{tabular}%
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+    \hline
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ }\\
+      \multicolumn{3}{| c |}{ #1 }\\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ }\\
+    \hline
+      Name: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\
+      Description: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #3 } \\
+    \hline
+\end{tabular}%
+ }
+
+\newcommand{\ChallengeDomain}[5]{%
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForThreeColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForThreeColumnsTwo} |  p{\columnWidthForThreeColumnsThree} | @{}}
+    \hline
+      \multicolumn{3}{| c |}{\multirow{2}{*} {Challenge space } } \\
+      \multicolumn{3}{| c |}{ } \\
+    \hline
+      \parbox[t]{2mm}{\multirow{2}{*}{\parbox{\columnWidthForThreeColumnsOne}{Base \\ problem:}}} & Type: & #1 \\
+      \cline{2-3}
+      & Size: & #2  \\
+      \hline
+      
+      \parbox[t]{2mm}{\multirow{2}{*}{\rotatebox[origin=c]{90}{\parbox{\columnWidthForThreeColumnsOne}{CAPTCHA \\ problem:}}}} & Domain: & #3 \\
+      \cline{2-3}
+      & Size: & #4 \\
+      \cline{2-3}
+      & Distribution: & #5  \\
+
+   \hline
+\end{tabular}%
+ }
+
+\newcommand{\basecassAnswerDomain}[5]{%
+%\begin{tabular}{ @{\extracolsep{\fill}} | p{\columnWidthForThreeColumnsOne}  |  p{\columnWidthForThreeColumnsTwo} |  p{\columnWidthForThreeColumnsThree} | @{}}
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForThreeColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForThreeColumnsTwo} |  p{\columnWidthForThreeColumnsThree} | @{}}
+   \hline
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{Answer space } } \\
+%      \multicolumn{3}{| c |}{ } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+
+%    \rowcolor{LightYellow}
+    
+    \hline
+      Maximum Range: & \multicolumn{2}{ p{\columnWidthForThreeColumnsTwoThree} |}{ #1 } \\
+      \hline
+      Range: & \multicolumn{2}{ p{\columnWidthForThreeColumnsTwoThree} |}{ #2 } \\
+      \hline
+      Ratio: & {#3} & {#4} \\
+      \hline
+      Distribution: & \multicolumn{2}{ p{\columnWidthForThreeColumnsTwoThree} |}{ #5 } \\
+   \hline
+\end{tabular}%
+ }
+
+\newcommand{\basecassChallengeAnswerDomainConclusions}[4]{%
+%\begin{tabular}{ @{\extracolsep{\fill}} | p{\columnWidthForThreeColumnsOne}  |  p{\columnWidthForThreeColumnsTwo} |  p{\columnWidthForThreeColumnsThree} | @{}}
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForThreeColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForThreeColumnsTwo} |  p{\columnWidthForThreeColumnsThree} | @{}}
+   \hline
+%      \rowcolor{White}
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{Challenge space \& answer space conclusions } } \\
+%      \multicolumn{3}{| c |}{ } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+
+
+%    \rowcolor{LightGreen}
+    
+    \hline
+      Is attack possible: & #1 & #2  \\
+      \hline
+      Description: & \multicolumn{2}{ p{\columnWidthForThreeColumnsTwoThree} |}{ #3 } \\
+      \hline
+      Success: & \multicolumn{2}{ p{\columnWidthForThreeColumnsTwoThree} |}{ #4 } \\
+    \hline
+\end{tabular}%
+ }
+
+\ExplSyntaxOn
+\newcommand{\basecassSubtableIntForTwoColumns}[1]{ % elems
+	\clist_map_inline:nn { #1 } { & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ ##1} \\  }
+}
+\ExplSyntaxOff
+
+\ExplSyntaxOn
+\newcommand{\basecassSubtableForTwoColumns}[3]{ % {tItulo} {elem1} {elems2,elems3,...}
+    \hline
+    %\setbox0\hbox{\tabular{@{}l} \hspace{0pt} #1 \endtabular}
+    % note that length of multirow should be \clist_count:n {#3} + 1
+    %\parbox[t]{2mm}{\multirow{\clist_count:n {#3}}{*}{\rotatebox[origin=c]{90}{\parbox{\columnWidthForTwoColumnsOne}{#1}}}} & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\
+    \parbox[t]{2mm}{\multirow{\clist_count:n {#3}}{*}
+    {
+     %\rule{0pt}{\dimexpr(\wd0-\normalbaselineskip+\tabcolsep+\tabcolsep)}
+     %\rotatebox{90}{\rlap{\usebox0}}
+     \rotatebox{90}{ \tabular{@{}l} \hspace{0pt} #1 \endtabular }}
+    } & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\
+    \basecassSubtableIntForTwoColumns{#3}
+    & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{   } \\
+}
+\ExplSyntaxOff
+
+
+
+
+\newcommand{\basecassMetrics}[8]{%
+%\begin{tabular}{ @{\extracolsep{\fill}} | p{\columnWidthForTwoColumnsOne}  |  p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+   \hline
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{Metrics } } \\
+%      \multicolumn{3}{| c |}{ } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+
+    \hline
+      Denoising: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #1 } \\
+
+    \hline
+      Pre-processing: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\
+
+    \basecassSubtableForTwoColumns{Generic}{#3}{#4}
+    \basecassSubtableForTwoColumns{Order}{#5}{#6}
+    \basecassSubtableForTwoColumns{Specific/ \\ Tailored}{#7}{#8}
+
+	\hline
+\end{tabular}%
+ }
+
+
+
+
+% estas macros ...Two son mejores q las sencillas: reciben cOmo Ultimo parAmetro la especificaciOn de la columna, lo que evita quela columna cambie de ancho si el contenido es muy largo
+% si este error ocurre, cambiar las llamadas a las macros originales pa q sean a estas ...Two
+
+\ExplSyntaxOn
+\newcommand{\basecassSubtableIntTwoForTwoColumns}[2]{ % elems
+	\clist_map_inline:nn { #1 } { & \multicolumn{2}{ #2 }{ ##1} \\  }
+}
+\ExplSyntaxOff
+
+\ExplSyntaxOn
+\newcommand{\basecassSubtableTwoForTwoColumns}[4]{ % {tItulo} {elem1} {elems2,elems3,...} p{\columnWidthForTwoColumnsThree}
+    %\setbox0\hbox{\tabular{@{}l} \hspace{0pt} #1 \endtabular}
+    \hline
+    % note that length of multirow should be \clist_count:n {#3} + 1
+    \parbox[t]{2mm}{\multirow{\clist_count:n {#3}}{*}
+    {
+     %\rule{0pt}{\dimexpr(\wd0-\normalbaselineskip+\tabcolsep+\tabcolsep)}
+     %\rotatebox{90}{\rlap{\usebox0}}
+     \rotatebox[origin=c]{90}{\parbox{\columnWidthForTwoColumnsOne}{ \tabular{@{}l} \hspace{0pt} #1 \endtabular }
+    }}} & \multicolumn{2}{ #4 }{ #2 } \\
+    \basecassSubtableIntTwoForTwoColumns{#3}{#4}
+    & \multicolumn{2}{ #4 }{   } \\
+}
+\ExplSyntaxOff
+
+
+
+
+
+
+
+
+
+\makeatletter
+\newcommand\basecassTableLineForTwoColumns[1]{%
+    \forcsvlist{\basecassTableLineForTwoColumns@item}{#1}
+}
+\newcommand\basecassTableLineForTwoColumns@item[1]{ \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{#1} \\ }
+\makeatother
+
+
+\newcommand{\basecassTestOfMetrics}[5]{%
+%\begin{tabular}{ @{\extracolsep{\fill}} | p{\columnWidthForTwoColumnsOne}  |  p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+   \hline
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{ Test of metrics } } \\
+%      \multicolumn{3}{| c |}{ } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+      
+    \hline      
+	\basecassTableLineForTwoColumns{ #1 }
+    \hline                                                                                                                                                                                                                                                                                                                                                  
+	\basecassTableLineForTwoColumns{ #2 }
+
+    \hline                                                                                                                                                                                                                                                                                                                                                  
+      Is attack possible: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #3 } \\
+      \hline
+      Description: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #4 } \\
+      \hline
+      Success: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #5 } \\
+
+	\hline
+\end{tabular}%
+ }
+
+%\newcommand{\basecassTestOfMetrics}[5][]{%
+%
+%\begin{tabular}{ @{\extracolsep{\fill}} | p{\columnWidthForTwoColumnsOne}  |  p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+%   \hline
+%      \rowcolor{White}
+%      \multicolumn{3}{| c |}{\multirow{2}{*}{ Test of metrics } } \\
+%      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+%
+%    \hline      
+%	\basecassTableLine{ #1 }    
+%    \hline                                                                                                                                                                                                                                                                                                                                                  
+%	\basecassTableLine{ #2 }    
+%
+%    \hline                                                                                                                                                                                                                                                                                                                                                  
+%      Is attack possible: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #3 } \\
+%      \hline
+%      Description: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #4 } \\
+%      \hline
+%      Success: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #5 } \\
+%
+%    \hline                                                                                                                                                                                                                                                                                                                                                  
+%\end{tabular}%
+% }
+
+\newcommand{\basecassDataPreparation}[3]{% 
+
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForThreeColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForThreeColumnsTwo} |  p{\columnWidthForThreeColumnsThree} | @{}}
+   \hline
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{ Data preparation } } \\
+      \multicolumn{3}{| c |}{ } \\
+
+      \hline
+      \parbox[t]{2mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{\parbox{\columnWidthForThreeColumnsOne}{Training \\ set}}}} & Size: & #1  \\
+      \cline{2-3}
+      & Balance: & #2  \\ 
+      \cline{2-3}
+      & Notes: & #3  \\
+
+	\hline
+\end{tabular}%
+ }
+
+
+
+\newcommand{\basecassStatisticalAnalysis}[2]{%
+
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}}
+%\begin{tabular}{ @{\extracolsep{\fill}} | p{\columnWidthForTwoColumnsOne}  |  p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}} 
+    \hline                                                                                                                                                                                                                                                                                                                                                  
+
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{Statistical analysis } } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+    
+    \hline
+      Correlations & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #1 } \\
+      \hline
+      Regressions & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\  
+ 
+    \hline
+\end{tabular}% 
+}
+
+\newcommand{\basecassMLAnalysis}[4]{%
+
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}} 
+    \hline                                                                                                                                                                                                                                                                                                                                                  
+
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{ML analysis } } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+
+%    \rowcolor{LightBlue}
+
+    \hline
+      Selection: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #1 } \\
+      \hline
+      Best algorithms: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\
+      \hline
+      Accuracy: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #3 } \\
+      \hline
+      $\kappa$-statistic : & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #4 } \\
+    \hline
+\end{tabular}% 
+}
+
+\newcommand{\basecassSMLAttackAndResults}[4]{%
+
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}} 
+      % if phase before leads to an attack
+%      \rowcolor{White}
+     \hline
+      \multicolumn{3}{| c |}{\multirow{2}{*}{S/ML attack \& Results } } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\      
+      \multicolumn{3}{| c |}{\tiny If previous phase leads to an attack}\\
+
+%    \rowcolor{LightGreen}
+
+    \hline
+      Possible?: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #1 } \\
+      \hline
+      Description: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\
+      \hline
+      Success rate: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #3 } \\
+      \hline
+      Observations: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #4 } \\
+    \hline
+\end{tabular}% 
+}
+
+\newcommand{\basecassMLParameterAnalysis}[3]{%
+
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}} 
+    \hline                                                                                                                                                                                                                                                                                                                                                  
+
+      % note: this phase is optional, iff phases before have not lead to a successful attack n
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{ML vs. parameter analysis } } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\      
+      \setarstrut{\tiny}%
+      \multicolumn{3}{| c |}{\tiny Optional: if and only if phases before not lead to a successful attack}\\
+      \multicolumn{3}{| c |}{\tiny  and there is enough data on challenge production parameters}\\
+      \restorearstrut
+
+
+%    \rowcolor{LightOrange}
+
+    \hline
+
+      % for each combination of parameter, value(s), and interesting ML result
+      & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{\tiny For each combination of parameter, value(s), and interesting ML result:} \\
+%      \cline{2-3}
+      \basecassSubtableForTwoColumns{#1}{#2}{#3}  
+%     quedaba mejor el original, al usar bien las tres columnas:
+%      \parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{\parbox{\columnWidthForTwoColumnsOne}{\textless Parameter \\ name \textgreater }}}} & value/s: & \textless Description of set of values for the parameter that lead to an interesting result \textgreater \\
+%      \cline{2-3}
+%      & Best algorithm: & #4  \\
+%      \cline{2-3}
+%      & Accuracy: &  #5 \\
+%      \cline{2-3}
+%      & $\kappa$-statistic : & #6  \\
+%      \cline{2-3}
+%      &  \ldots & \\
+      
+    \hline
+\end{tabular}% 
+}
+
+\newcommand{\basecassAttackAndResults}[4]{%
+
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}} 
+    \hline                                                                                                                                                                                                                                                                                                                                                  
+
+      % if phase before leads to an attack
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{Attack \& Results } } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+      \multicolumn{3}{| c |}{\tiny If previous phase leads to an attack}\\
+
+%    \rowcolor{LightRed}
+
+    \hline
+      Possible?: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #1 } \\
+      \hline
+      Description: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\
+      \hline
+      Success rate: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #3 } \\
+      \hline
+      Observations: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #4 } \\
+    \hline
+\end{tabular}% 
+}
+
+\newcommand{\basecassConclusion}[3]{%
+
+\begin{tabular}{ @{\extracolsep{\fill}} | >{\hspace{0pt}} p{\columnWidthForTwoColumnsOne}  |  >{\hspace{0pt}} p{\columnWidthForTwoColumnsTwo} |  p{\columnWidthForTwoColumnsThree} | @{}} 
+    \hline
+%      \rowcolor{White}
+      \multicolumn{3}{| c |}{\multirow{2}{*}{Conclusion } } \\
+      \multicolumn{3}{| p{\columnWidthForTwoColumnsOneTwoThree} |}{ } \\
+
+%    \rowcolor{LightGreen}
+
+    \hline
+      Weaknesses: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #1 } \\
+      \hline
+      Broken?: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #2 } \\
+      \hline
+      Work-arounds: & \multicolumn{2}{ p{\columnWidthForTwoColumnsTwoThree} |}{ #3 } \\
+    \hline 
+\end{tabular}% 
+}
+
+
+%  \begin{longtable}{@{\extracolsep{\fill}}l@{}} %{@{}l@{}}
+%
+%    
+%    \basecassTitleAndChallengeDomain{BASECASS \textless CAPTCHA \textgreater Analysis}{\textless Captcha name and challenge subtype, if many \textgreater}{\textless more detailed description \textgreater}{\textless Basic category of the problem presented\textgreater}{\textless Estimation of base problem size\textgreater}{\textless Detailed description of the specific problem presented by the CAPTCHA\textgreater}{\textless Estimation of size, compared to the base problem, and/or based on possible parameters that influence on the creation of each challenge\textgreater}{\textless Distribution in which each challenge parameter value appears, whether it is uniform or not, and additional data. A Pearson's $\rchi^2$ test might be applied if enough data is available\textgreater} \\
+%
+%	\basecassAnswerDomain{\textless Theoretical size of the set of possible values to answers\textgreater}{\textless Real size of set of possible answers\textgreater}{\textless Ratio \textgreater}{\textless Ratio (if finite)\textgreater}{\textless Distribution in which each answer value appears. A Pearson's $\rchi^2$ test might be applied if enough data is available\textgreater} \\
+%
+%	\basecassChallengeAnswerDomainConclusions{Yes/No}{\textless Whether an attack might be possible or not based on the previous findings\textgreater}{\textless How the attack works\textgreater}{\textless Real success rate with which the attack bypasses the CAPTCHA\textgreater} \\
+%
+%	\basecassMetrics{\textless Whether any denoising technique is used. If so, comment which\textgreater}{\textless Whether any pre-processing technique is used. If so, describe it\textgreater}{\textless General purpose metric used \# 1 \textgreater}{\textless General purpose metric used \# 2 \textgreater, \ldots}{\textless Order metric used \# 1 \textgreater}{\textless Order metric used \# 2 \textgreater, \ldots}{\textless Special metric used \# 1 \textgreater}{\textless Special metric used \# 2 \textgreater, \ldots} \\
+%
+%%\basecassTestOfMetrics[lineAA=adkakdlsd,textAA=weewrwerw]{uno} \\ 
+%
+%\basecassTestOfMetrics{ $metric_1$ : \textless Check metric applies to challenges and direct information gain \textgreater, $metric_2$ : \textless Check metric applies to challenges and direct information gain \textgreater , \ldots } { $metric_i$ vs. $metric_j$ : p{\columnWidthForTwoColumnsTwoThree} |}{\textless Check if both present highly correlated results \textgreater , \ldots , \ldots } { \textless Whether an attack might be possible using one of the tested metrics \textgreater } { \textless Which metric the attack uses and how \textgreater } { \textless Real success rate with which the attack bypasses the CAPTCHA\textgreater } \\ 
+%	
+%\basecassDataPreparation{\textless Number of training examples\textgreater}{\textless How many of them are correct vs. wrong\textgreater}{\textless Optional notes about data cleaning, transformations, data distribution, etc. \textgreater} \\
+%
+%\basecassStatisticalAnalysis{\textless Most correlated variables with answers and R-factors\textgreater}{\textless Variables that are used in best linear regression, and error\textgreater} \\
+%
+%\basecassMLAnalysis{\textless Selection criteria for fitness of ML algorithm\textgreater}{\textless List of $N$ best performing ML algorithms\textgreater}{\textless Accuracy of the $N$ best algorithms\textgreater}{\textless $\kappa$-statistic of the $N$ best algorithms\textgreater } \\
+%
+%\basecassSMLAttackAndResults{\textless Whether an attack based on the previous findings seems possible or not\textgreater}{\textless How the attack works\textgreater}{\textless If so, with which success rate it bypasses the CAPTCHA\textgreater}{\textless Any additional observations\textgreater} \\
+%
+%% ojo: el primer parAmetro deberIa ser "Parameter \\ name" pero no le gustan los "\\"
+%\basecassMLParameterAnalysis{ \textless Parameter name \textgreater }{Value/s: \textless Description of set of values for the parameter that lead to an interesting result \textgreater}{Best algorithm: \textless Best performing ML algorithm\textgreater, Accuracy: \textless Accuracy of the best ML algorithm\textgreater, $\kappa$-statistic : \textless $\kappa$-statistic of the best algorithm\textgreater, \ldots  } \\ 
+%
+%\basecassAttackAndResults{\textless Whether an attack seems possible based on previous findings\textgreater}{\textless How the attack works\textgreater}{\textless Real success rate of attack\textgreater}{\textless Possible observations\textgreater} \\ 
+%
+%\basecassConclusion{\textless Possible list of weaknesses found, in decreasing order of importance \textgreater}{\textless If the CAPTCHA can be considered bypassed, and if so, the success ratio of the attack \textgreater}{\textless If any plausible work-arounds would prevent this and similar attacks \textgreater} \\ 
+%	
+%
+%      
+%    \caption{BASECASS test table.}
+%    \label{tab:TestBASECASSSummary}
+%  \end{longtable}
+
+
+
+
